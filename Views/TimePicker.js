@@ -8,9 +8,9 @@ function TimePicker( ) {
     return (
         <AppContext.Consumer>
             {context => (
-                <View style={styles.container}>
-                    <View style={styles.pickers}><Picker label="minutes" value={context.minutes} setter={context.setMinutes} /></View>
-                    <View style={styles.pickers}><Picker label="secondes" value={context.secondes} setter={context.setSecondes} /></View>
+                <View >
+                    <View ><Picker label="minutes" value={context.minutes} setter={context.setMinutes} /></View>
+                    <View ><Picker label="secondes" value={context.secondes} setter={context.setSecondes} /></View>
                 </View>
             )
             }
@@ -21,31 +21,19 @@ function TimePicker( ) {
 
 const Picker = ({ label, value, setter }) => {
     const data = []
-    for (let i = 0; i < 60; i++) {
+    for (let i = 1; i < 60; i++) {
         data.push({
             label: timeToString(i),
             value: i,
+            itemKey: timeToString(i)
         })
     }
     return (
         <RNPickerSelect onValueChange={(value) => setter(value)}
-            items={data} placeholder={{label: timeToString(value), value: value }}></RNPickerSelect>
+            items={data} value={value} placeholder={{label: timeToString(0), value: 0, key: timeToString(value),  itemKey: timeToString(0) }}></RNPickerSelect>
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: "100%",
-        flexWrap: "nowrap"
-    },
-    pickers: {
-        width: "120px",
-        padding: "10px",
-    }
-});
+
 
 export default TimePicker;
