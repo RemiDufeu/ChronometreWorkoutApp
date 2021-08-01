@@ -41,7 +41,7 @@ function ChronoJs ({minutes, secondes, navigation}) {
                 if (secondesTimer > 0 && status) {
                     setSecondesTimer(secondesTimer - 1);
                 }
-                if (secondesTimer == 0) {
+                if (secondesTimer == 0 && status) {
                     if (minutesTimer == 0) {
                         clearInterval(timerInterval)
                         setPause()
@@ -58,18 +58,23 @@ function ChronoJs ({minutes, secondes, navigation}) {
         },
     );
 
-    const pauseView = <TouchableOpacity style={styles.pauseContainer} onPress={()=> { setResume()}}>
-        <Text  style={styles.resume}>Resume</Text>
-        {minutesTimer == minutes && secondesTimer == secondes ? "" : <TouchableOpacity activeOpacity={0.6} onLongPress={() => { resetTimer()}}><Text >
+    const pauseView = <>
+        <TouchableOpacity  onPress={()=> { setResume()}}>
+            <Text>Resume</Text>
+        </TouchableOpacity>
+        { (minutesTimer != minutes || secondesTimer != secondes) && <TouchableOpacity activeOpacity={0.6} onLongPress={() => { resetTimer()}}>
+            <Text >
               Restart
-          </Text></TouchableOpacity> }
+            </Text>
+        </TouchableOpacity> }
+        </>
         
-    </TouchableOpacity>
+    
 
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => setPause()} style={styles.timerContainer}>
+            <TouchableOpacity onPress={() => setPause()} >
                 <Text> {timeToString(minutesTimer)}</Text>
                 <Text> {timeToString(secondesTimer)}</Text>
             </TouchableOpacity>
@@ -78,7 +83,7 @@ function ChronoJs ({minutes, secondes, navigation}) {
         </View>
     )
 }
-
+/*
 const styles = StyleSheet.create({
     pauseContainer: {
         width : "100%",
@@ -105,6 +110,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     }
 });
-
+*/
 
 export default Chrono;
