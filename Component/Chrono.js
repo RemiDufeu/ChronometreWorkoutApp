@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import AppContext from '../Context/AppContext'
 import timeToString from '../utils/timeToString';
+import { useFonts } from 'expo-font';
 
 function Chrono({ navigation }) {
 
@@ -17,6 +18,14 @@ function Chrono({ navigation }) {
 }
 
 function ChronoJs ({minutes, secondes, navigation}) {
+    
+
+    let [fontsLoaded] = useFonts({
+        'Sarpanch': require('../assets/fonts/Sarpanch-ExtraBold.ttf'),
+    });
+
+    console.log(fontsLoaded)
+
     const [status, setStatus] = useState(true) // true = resume // false = pause
 
     const setPause = () => {
@@ -57,7 +66,6 @@ function ChronoJs ({minutes, secondes, navigation}) {
               }
         },
     );
-
     const pauseView = <>
         <TouchableOpacity  onPress={()=> { setResume()}}>
             <Text>Resume</Text>
@@ -74,42 +82,15 @@ function ChronoJs ({minutes, secondes, navigation}) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => setPause()} >
-                <Text> {timeToString(minutesTimer)}</Text>
-                <Text> {timeToString(secondesTimer)}</Text>
-            </TouchableOpacity>
+            {fontsLoaded ?<TouchableOpacity onPress={() => setPause()} >
+                <Text style={{fontFamily : 'Sarpanch', fontSize : 100}}> {timeToString(minutesTimer)}</Text>
+                <Text style={{fontFamily : 'Sarpanch' , fontSize : 100}}> {timeToString(secondesTimer)}</Text>
+            </TouchableOpacity> : <Text>Chargement...</Text>}
             
             {!status &&  pauseView }
         </View>
     )
 }
-/*
-const styles = StyleSheet.create({
-    pauseContainer: {
-        width : "100%",
-        backgroundColor : "rgba(0, 0, 0, 0.5)",
-        position: "absolute",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        height : "100%",
-        padding : "15px"
-    },
-    resume : {
-        paddingTop : "90%",
-        color : "white",
-        fontSize : 24
-    },
-    timerContainer : {
-        display : "flex",
-        height : "100%",
-        flexDirection: "column",
-        width : "100%",
-        justifyContent: "center",
-        alignItems: "center",
-    }
-});
-*/
+
 
 export default Chrono;

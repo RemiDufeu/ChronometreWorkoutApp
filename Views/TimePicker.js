@@ -1,16 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import RNPickerSelect from "react-native-picker-select";
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import AppContext from '../Context/AppContext'
-import timeToString from '../utils/timeToString';
 
 function TimePicker( ) {
     return (
         <AppContext.Consumer>
             {context => (
-                <View >
-                    <View ><Picker label="minutes" value={context.minutes} setter={context.setMinutes} /></View>
-                    <View ><Picker label="secondes" value={context.secondes} setter={context.setSecondes} /></View>
+                <View style={styles.container}>
+                    <View style={styles.timeBox}><Text style={styles.text} >Minutes</Text><TextInput style={styles.textInput} label="minutes" value={context.minutes.toString()} onChangeText={context.setMinutes} /></View>
+                    <View style={styles.timeBox}><Text style={styles.text} >Secondes</Text><TextInput style={styles.textInput} label="secondes" value={context.secondes.toString()} onChangeText={context.setSecondes} /></View>
                 </View>
             )
             }
@@ -18,22 +16,31 @@ function TimePicker( ) {
     );
 }
 
-
-const Picker = ({ label, value, setter }) => {
-    const data = []
-    for (let i = 1; i < 60; i++) {
-        data.push({
-            label: timeToString(i),
-            value: i,
-            itemKey: timeToString(i)
-        })
+const styles = StyleSheet.create({
+    container : {
+        padding : 15,
+        display : 'flex',
+        flexDirection : 'row',
+        justifyContent : 'space-evenly',
+        width : '100%'
+        
+    },
+    text : {
+        fontSize : 20,
+        textAlign : 'center',
+    },
+    textInput : {
+        textAlign : 'center',
+        backgroundColor : 'white',
+        paddingTop : 20,
+        paddingBottom : 20,
+        marginTop: 10,
+        fontSize : 20
+    },
+    timeBox : {
+        width : "35%",
+        maxWidth : 250
     }
-    return (
-        <RNPickerSelect onValueChange={(value) => setter(value)}
-            items={data} value={value} placeholder={{label: timeToString(0), value: 0, key: timeToString(value),  itemKey: timeToString(0) }}></RNPickerSelect>
-    )
-}
-
-
+})
 
 export default TimePicker;

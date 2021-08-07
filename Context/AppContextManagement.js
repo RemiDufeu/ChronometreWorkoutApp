@@ -7,7 +7,11 @@ state = {
 }
  
 setMinutes = (minutes) =>  {
-    this.setState({minutes : minutes})
+    if(minutes === "") {
+        this.setState({minutes : 0 })
+    } else if (parseInt(minutes) < 60){
+        this.setState({minutes : parseInt(minutes)})
+    }
 }
 
 setTimes = (minutes, secondes) => {
@@ -16,7 +20,12 @@ setTimes = (minutes, secondes) => {
 }
 
 setSecondes = (secondes) => {
-    this.setState({secondes : secondes})
+    if(secondes === "") {
+        this.setState({secondes : 0 })
+    } else if (parseInt(secondes) < 60){
+        this.setState({secondes : parseInt(secondes)})
+    }
+    
 }
 
 render(){
